@@ -1,60 +1,63 @@
-import { usb } from 'usb';
-import EventEmitter from 'events';
-import edge from 'edge-js'
+import { usb } from "usb";
+import EventEmitter from "events";
+import edge from "edge-js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 export default class UsbEventsContorller extends EventEmitter {
+  drivesCache = {};
 
-    drivesCache = {};
+  constructor() {
+    super();
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const rootPath = path.join(__dirname, "/RemovableUsbInfo.dll");
+    this.dll = edge.func(rootPath);
+  }
 
-    constructor() {
-        super()
-        this.dll = edge.func('./RemovableUsbInfo.dll');
-    }
+  async startListing() {
+    usb.on("attach", (device) => {
+      console.log("attach");
+      var payload = {
+        ProductId: device.deviceDescriptor.idProduct,
+        VendorId: device.deviceDescriptor.idVendor,
+      };
+      var _this = this;
+      this.dll(payload, function (error, result) {
+        if (error) {
+          console.error(error);
+          return;
+        }
 
-    async startListing() {
-        usb.on('attach', (device) => {
-            console.log('attach');
-            var payload = {
-                ProductId: device.deviceDescriptor.idProduct,
-                VendorId: device.deviceDescriptor.idVendor
-            }
-            var _this = this;
-            this.dll(payload, function (error, result) {
-                if (error) {
-                    console.error(error);
-                    return;
-                }
+        if (result == null) return;
 
-                if (result == null)
-                    return;
-
-                var driveKey = `${device.deviceDescriptor.idProduct}_${device.deviceDescriptor.idVendor}`;
-                _this.drivesCache[driveKey] = result;
-                this.emit('attach', {
-                    event: 'attach',
-                    data: result
-                });
-                //console.log(`attached ${result.Path}, ${result.Label}`);
-            });
+        var driveKey = `${device.deviceDescriptor.idProduct}_${device.deviceDescriptor.idVendor}`;
+        _this.drivesCache[driveKey] = result;
+        _this.emit("attach", {
+          event: "attach",
+          data: result,
         });
+        //console.log(`attached ${result.Path}, ${result.Label}`);
+      });
+    });
 
-        usb.on('detach', (device) => {
-            console.log('detach');
+    usb.on("detach", (device) => {
+      console.log("detach");
 
-            var driveKey = `${device.deviceDescriptor.idProduct}_${device.deviceDescriptor.idVendor}`;
-            var result = this.drivesCache[driveKey];
+      var driveKey = `${device.deviceDescriptor.idProduct}_${device.deviceDescriptor.idVendor}`;
+      var result = this.drivesCache[driveKey];
 
-            if (result) {
-                //console.log(`detached ${result.Path}, ${result.Label}`);
-                delete this.drivesCache[driveKey];
+      if (result) {
+        //console.log(`detached ${result.Path}, ${result.Label}`);
+        delete this.drivesCache[driveKey];
 
-                this.emit('detach', {
-                    event: 'detach',
-                    data: result
-                });
-            }
+        this.emit("detach", {
+          event: "detach",
+          data: result,
         });
-    }
+      }
+    });
+  }
 }
 
 // const a = new UsbEventsContorller();
