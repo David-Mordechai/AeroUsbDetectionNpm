@@ -8,8 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "aero-usb-detection": "file:../aero-usb-detection/aero-usb-detection-1.0.0.tgz"
-  }
+  "license": "ISC"
 }

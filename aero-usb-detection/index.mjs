@@ -33,11 +33,7 @@ export default class UsbEventsContorller extends EventEmitter {
 
         var driveKey = `${device.deviceDescriptor.idProduct}_${device.deviceDescriptor.idVendor}`;
         _this.drivesCache[driveKey] = result;
-        _this.emit("attach", {
-          event: "attach",
-          data: result,
-        });
-        //console.log(`attached ${result.Path}, ${result.Label}`);
+        _this.emit("attach", result);
       });
     });
 
@@ -48,17 +44,9 @@ export default class UsbEventsContorller extends EventEmitter {
       var result = this.drivesCache[driveKey];
 
       if (result) {
-        //console.log(`detached ${result.Path}, ${result.Label}`);
         delete this.drivesCache[driveKey];
-
-        this.emit("detach", {
-          event: "detach",
-          data: result,
-        });
+        this.emit("detach", result);
       }
     });
   }
 }
-
-// const a = new UsbEventsContorller();
-// a.startListing();
