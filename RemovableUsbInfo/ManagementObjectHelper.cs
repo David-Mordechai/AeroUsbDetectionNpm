@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management;
+﻿using System.Management;
 
 namespace RemovableUsbInfo
 {
@@ -9,16 +6,19 @@ namespace RemovableUsbInfo
     {
         public static string FindDevice(string pattern)
         {
-            foreach (var o in new ManagementObjectSearcher(
-                         $"select * from Win32_USBHub Where DeviceID Like '%{pattern}%'").Get())
+            using var winUsbHubsCollection = new ManagementObjectSearcher(
+                         $"select * from Win32_USBHub Where DeviceID Like '%{pattern}%'");
+
+            foreach (var o in winUsbHubsCollection.Get())
             {
                 var entity = (ManagementObject)o;
 
                 foreach (var managementBaseObject in entity.GetRelated("Win32_USBController"))
                 {
                     var controller = (ManagementObject)managementBaseObject;
-                    foreach (var o1 in new ManagementObjectSearcher(
-                                 "ASSOCIATORS OF {Win32_USBController.DeviceID='" + controller["PNPDeviceID"] + "'}").Get())
+                    using var winUsbControllersCollection =new ManagementObjectSearcher(
+                                 "ASSOCIATORS OF {Win32_USBController.DeviceID='" + controller["PNPDeviceID"] + "'}");
+                    foreach (var o1 in winUsbControllersCollection.Get())
                     {
                         var obj = (ManagementObject)o1;
                         if (obj.ToString().Contains("DeviceID") && obj["DeviceID"].ToString().Contains("USBSTOR"))
@@ -26,33 +26,27 @@ namespace RemovableUsbInfo
                     }
                 }
             }
-            
             return "*none*";
         }
 
         public static OutputDto GetDriveLetterAndLabel(string device)
         {
-            Console.WriteLine("GetDriveLetterAndLabel");
-            foreach (var managementBaseObject in new ManagementObjectSearcher("select * from Win32_DiskDrive").Get())
+            using var collection = new ManagementObjectSearcher("select * from Win32_DiskDrive");
+            foreach (var managementBaseObject in collection.Get())
             {
-                Console.WriteLine("Win32_DiskDrive");
                 var drive = (ManagementObject)managementBaseObject;
                 if (drive["PNPDeviceID"].ToString() != device) continue;
 
                 foreach (var o1 in drive.GetRelated("Win32_DiskPartition"))
                 {
-                    Console.WriteLine("Win32_DiskPartition");
                     var o = (ManagementObject)o1;
                     foreach (var managementBaseObject1 in o.GetRelated("Win32_LogicalDisk"))
                     {
-                        Console.WriteLine("Win32_LogicalDisk");
-
                         var i = (ManagementObject)managementBaseObject1;
                         return new OutputDto {Path = i["Name"].ToString(), Label = i["VolumeName"].ToString()};
                     }
                 }
             }
-            Console.WriteLine("GetDriveLetterAndLabel did not find a label and drive latter");
             return null;
         }
     }
