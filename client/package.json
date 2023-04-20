@@ -2,7 +2,11 @@
   "name": "client",
   "version": "1.0.0",
   "description": "",
-  "main": "main.mjs",
+  "main": "index.js",
+  "dependencies": {
+    "aero-win-usb-detection": "^1.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "dev": "node main.mjs"
   },

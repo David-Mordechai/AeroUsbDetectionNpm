@@ -1,4 +1,4 @@
-import UsbEventsContorller from "aero-usb-detection";
+import UsbEventsContorller from "aero-win-usb-detection";
 
 var usbController = new UsbEventsContorller();
 

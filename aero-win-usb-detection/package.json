@@ -3,11 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "type": "module",
+  "include": [
+    "./RemovableUsbInfo.dll"
+  ],
   "author": "",
+  "scripts": {
+    "clean": "rimraf ./dist/",
+    "copy-files": "copyfiles ./RemovableUsbInfo.dll ./dist/",
+    "build": "npm run clean && tsc && npm run copy-files"
+  },
   "license": "ISC",
-  "main": "./UsbEventsContorller.mjs",
+  "main": "./dist/UsbEventsContorller.js",
   "dependencies": {
     "edge-js": "^19.3.0",
     "usb": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.12",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
   }
 }

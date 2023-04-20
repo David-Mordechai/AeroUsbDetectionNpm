@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 
 export default class UsbEventsContorller extends EventEmitter {
   drivesCache = {};
+  dll: edge.Func<unknown, unknown>;
 
   constructor() {
     super();
