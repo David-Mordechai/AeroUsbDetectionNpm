@@ -1,14 +1,11 @@
 {
-  "name": "aero-usb-detection",
+  "name": "aero-win-usb-detection",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
-  "scripts": {
-    "dev": "node index.mjs"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "main": "./UsbEventsContorller.mjs",
   "dependencies": {
     "edge-js": "^19.3.0",
     "usb": "^2.9.0"

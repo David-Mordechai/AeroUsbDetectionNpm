@@ -1,4 +1,4 @@
-import UsbEventsContorller from "../aero-usb-detection/index.mjs";
+import UsbEventsContorller from "aero-usb-detection";
 
 var usbController = new UsbEventsContorller();
 
