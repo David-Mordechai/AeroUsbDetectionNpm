@@ -43,7 +43,7 @@ namespace RemovableUsbInfo
                     foreach (var managementBaseObject1 in o.GetRelated("Win32_LogicalDisk"))
                     {
                         var i = (ManagementObject)managementBaseObject1;
-                        return new OutputDto {Path = i["Name"].ToString(), Label = i["VolumeName"].ToString()};
+                        return new OutputDto {Path = $"{i["Name"]}\\" , Label = i["VolumeName"].ToString()};
                     }
                 }
             }
