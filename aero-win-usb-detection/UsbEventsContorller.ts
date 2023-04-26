@@ -50,4 +50,8 @@ export default class UsbEventsContorller extends EventEmitter {
       }
     });
   }
+
+  stopListening(){
+    usb.removeAllListeners();
+  }
 }

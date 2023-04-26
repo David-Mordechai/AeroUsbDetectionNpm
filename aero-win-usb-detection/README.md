@@ -1,3 +1,12 @@
+# Install
+
+```sh
+npm i aero-win-usb-detection
+```
+
+## Usage
+
+```js
 import UsbEventsContorller from "aero-win-usb-detection";
 
 var usbController = new UsbEventsContorller();
@@ -14,3 +23,4 @@ usbController.on("detach", (device) => {
 
 // To stop listening
 // usbController.stopListening();
+```

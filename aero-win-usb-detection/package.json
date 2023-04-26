@@ -1,17 +1,23 @@
 {
   "name": "aero-win-usb-detection",
-  "version": "1.0.1",
-  "description": "",
-  "keywords": [],
+  "version": "1.0.2",
+  "description": "Listen to USB devices for attach/detach and get drive path and label (Windows only)",
+  "homepage": "https://github.com/David-Mordechai/AeroUsbDetectionNpm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/David-Mordechai/AeroUsbDetectionNpm.git"
+  },
+  "keywords": ["usb", "edge-js", "Dotnet"],
+  "author": "David Mordechai",
   "type": "module",
   "include": [
     "./RemovableUsbInfo.dll"
   ],
-  "author": "",
   "scripts": {
     "clean": "rimraf ./dist/",
+    "copy-readme": "copyfiles ../README.md ./dist/",
     "copy-files": "copyfiles ./RemovableUsbInfo.dll ./dist/",
-    "build": "npm run clean && tsc && npm run copy-files"
+    "build": "npm run clean && tsc && npm run copy-readme && npm run copy-files"
   },
   "license": "ISC",
   "main": "./dist/UsbEventsContorller.js",
