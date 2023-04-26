@@ -1,6 +1,6 @@
 {
   "name": "aero-win-usb-detection",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Listen to USB devices for attach/detach and get drive path and label (Windows only)",
   "homepage": "https://github.com/David-Mordechai/AeroUsbDetectionNpm",
   "repository": {

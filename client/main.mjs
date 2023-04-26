@@ -2,7 +2,7 @@ import UsbEventsContorller from "aero-win-usb-detection";
 
 var usbController = new UsbEventsContorller();
 
-usbController.startListing();
+usbController.startListening();
 
 usbController.on("attach", (device) => {
   console.log(device);

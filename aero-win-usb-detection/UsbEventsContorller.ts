@@ -16,7 +16,7 @@ export default class UsbEventsContorller extends EventEmitter {
     this.dll = edge.func(rootPath);
   }
 
-  async startListing() {
+  async startListening() {
     usb.on("attach", (device) => {
       console.log("attach");
       var payload = {
