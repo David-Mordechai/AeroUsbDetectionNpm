@@ -1,4 +1,8 @@
-# Install
+# aero-win-usb-detection
+
+`aero-win-usb-detection` allows you to listen for attach/detach events of USB devices and get device path and label.
+
+## Install
 
 ```sh
 npm i aero-win-usb-detection
