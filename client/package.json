@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aero-win-usb-detection": "^1.0.2"
+    "aero-win-usb-detection": "^1.0.3"
   }
 }
